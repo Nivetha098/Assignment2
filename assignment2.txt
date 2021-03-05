@@ -1,0 +1,331 @@
+Popup.html
+
+
+
+<template>
+
+    <lightning-card title="Popup Menu" icon-name="custom:custom20">
+
+        <!-- lightning button for open custom modal window -->
+        <lightning-button variant="brand" label="New Project" title="Open Modal" onclick={customShowModalPopup}
+            class="slds-m-left_x-small"></lightning-button>
+
+        <!-- modal start -->
+        <template if:true={customFormModal}>
+
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="width:1200px">
+                    <!-- modal header start -->
+                    <header class="slds-modal__header" style="background-color:rgb(200, 242, 243);width:831px">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close" onclick={customHideModalPopup}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                                size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <b>
+                            <h2 class="slds-text-heading_medium slds-hyphenate">New Project</h2>
+                        </b>
+
+                    </header>
+                    <!-- modal body start -->
+
+                    <lightning-record-edit-form id="recordViewForm" record-id={recordId} object-api-name="Project__c">
+                        <div class="slds-modal__content slds-p-around_medium" style="width:831px;height: 469px;">
+
+                            <div class="slds-card">
+                                <div class="slds-m-around_medium">
+
+                                    <b>
+                                        <p style="color: #707070;">INFORMATION</p>
+                                    </b>
+                                </div>
+                            </div>
+
+                            <div class="slds-grid slds-wrap">
+
+
+                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal_medium">
+                                    <label for="Project_Name__c"
+                                        style="color:rgb(25, 99, 236);font-weight:bold;padding-left: var(--lwc-spacingMedium,6rem);margin-left: -15px;">Project
+                                        Name</label>
+                                    <abbr title="required" class="slds-required font-weight:bold">*</abbr>
+                                    <lightning-input class="slds-input2" type="text" id="Project_Name__c" required
+                                        value={projectname} name="projectname" onchange={nameProject}
+                                        variant="label-hidden" style="margin-top: 5px;"></lightning-input>
+                                    <br>
+                                </div>
+
+                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal_medium">
+                                    <label for="Project_Type__c"
+                                        style="color:rgb(25, 99, 236);font-weight:bold;line-height: 16px;">Project
+                                        Type</label>
+                                    <lightning-combobox name="projectype" placeholder="Search People"
+                                        value={projecttype} onchange={handleChange} options={statusOptions} style="margin-top: 5px;margin-top: -15px;
+                ">
+                                    </lightning-combobox>
+
+                                </div>
+
+                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal_medium">
+
+                                    <label class for="Owner__c"
+                                        style="color:rgb(25, 99, 236);font-weight:bold;">Owner</label>
+
+                                    <lightning-combobox name="owner1" placeholder="Search People" value={ownervalue}
+                                        onchange={handleChange} options={statusOptions} style="margin-top: -13px;    margin-bottom: 19px;
+                ">
+                                    </lightning-combobox>
+
+                                </div>
+
+
+
+                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal_medium" style="    line-height: 23px;
+ ">
+                                    <label for="End_Date__c" style="color:rgb(25, 99, 236);font-weight:bold;padding-left: var(--lwc-spacingMedium,6rem);    margin-left: -14px;
+                            ">End date</label>
+                                    <lightning-input-field field-name="End_Date__c" variant="label-hidden"
+                                        style="margin-bottom: 25px;padding-top: 0px;margin-top: 6px;">
+                                    </lightning-input-field>
+
+
+                                </div>
+
+                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal_medium">
+
+                                    <label class for="Owner__c"
+                                        style="color:rgb(25, 99, 236);font-weight:bold;">Status</label>
+                                    <abbr title="required" class="slds-required font-weight:bold">*</abbr>
+
+
+                                    <lightning-combobox name="Opportunity Stage" placeholder="Search Milestone"
+                                        value={value} onchange={handleChange} options={statusOptions}
+                                        style="line-height: 6px;">
+                                    </lightning-combobox>
+
+                                </div>
+
+                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal_medium">
+
+                                    <label class for="Owner__c"
+                                        style="color:rgb(25, 99, 236);font-weight:bold;">Priority</label>
+                                    <abbr title="required" class="slds-required font-weight:bold">*</abbr>
+
+
+                                    <lightning-combobox name="Opportunity Stage" placeholder="Search Milestone"
+                                        value={value} onchange={handleChange} options={statusOptions}
+                                        style="line-height: 6px;">
+                                    </lightning-combobox>
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="slds-card">
+                                <div class="slds-m-around_medium">
+
+                                    <strong>
+                                        <p style="color:rgb(25, 99, 236)">
+                                            Upload Files</p>
+                                    </strong>
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-file-selector slds-file-selector_files">
+                                                <input type="file" class="slds-file-selector__input slds-assistive-text"
+                                                    onchange={fileUpload} multiple id="file-upload-input-01"
+                                                    aria-labelledby="file-selector-primary-label file-selector-secondary-label" />
+                                                <label class="slds-file-selector__body" for="file-upload-input-01"
+                                                    id="file-selector-secondary-label">
+                                                    <span
+                                                        class="slds-file-selector__button slds-button slds-button_neutral"
+                                                        style="color: white; background-color:#1153ac;margin-top: 5px;
+            margin-left: -5px;">
+                                                        <lightning-icon icon-name="action:upload" size="small"
+                                                            style="color: white; padding:1px;background-color: #1153ac;">
+                                                        </lightning-icon>
+                                                        <svg class="slds-button__icon slds-button__icon_left"
+                                                            aria-hidden="true">
+                                                        </svg>Select Files
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="slds-card" style="padding-left: 12px;    padding-bottom: 9px;">
+                                <strong>
+                                    <p style="color: #707070; padding-bottom:2px;">
+                                        DESCRIPTION </p>
+                                </strong>
+                                
+                                <lightning-input-rich-text formats="font, bold, italic, underline, strike,
+    list, indent, align,  image,  code, code-block, background, header">
+                                    <lightning-rich-text-toolbar-button-group slot="toolbar" aria-label="First group">
+                                        <lightning-rich-text-toolbar-button icon-name="utility:insert_tag_field"
+                                            icon-alternative-text="Code Snippet" onclick={handleCodeBlockButtonClick}>
+                                        </lightning-rich-text-toolbar-button>
+                                    </lightning-rich-text-toolbar-button-group>
+                                </lightning-input-rich-text>
+
+
+
+                            </div>
+                        </div>
+                    </lightning-record-edit-form>
+                    <!-- modal footer start-->
+
+                    <footer class="slds-modal__footer" style="padding-right: 301px; background-color:white;width:829px">
+                        <button class="slds-button slds-button_brand"
+                            onclick={handleCancel}>Cancel</button>&nbsp;&nbsp;&nbsp;
+                        <button class="slds-button slds-button_brand"
+                            onclick={handleSave}>Save</button>&nbsp;&nbsp;&nbsp;
+                        <button class="slds-button slds-button_brand" onclick={saveAndNewClick}>Save & New</button>
+                    </footer>
+                </div>
+                </div>
+
+            </section>
+            </div>
+            <div class="slds-backdrop slds-backdrop_open">
+            </div>
+        </template>
+        <!-- modal end -->
+
+
+    </lightning-card>
+</template>
+
+
+
+
+
+popup.js
+import { LightningElement, track, api } from "lwc";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import PROJECT_NAME from "@salesforce/schema/Project__c.Project_Name__c";
+import PROJECT_TYPE from "@salesforce/schema/Project__c.Project_type__c";
+import OWNER from "@salesforce/schema/Project__c.Owner__c";
+import END_DATE from "@salesforce/schema/Project__c.End_Date__c";
+import STATUS from "@salesforce/schema/Project__c.Status__c";
+import PRIORITY from "@salesforce/schema/Project__c.Priority__c";
+
+export default class Popup extends LightningElement {
+    @track customFormModal = false;
+    @api myRecordId;
+    redirect = true;
+    resetpage = true;
+    @api objectApiName;
+    objectApiName = "Project__c";
+    projectname = "";
+    projecttype = "";
+    ownervalue = "";
+    statusvalue = "";
+    //projectnamemethod
+    projectName(event) {
+        this.projectname = event.target.value;
+    }
+    //projecttypemethod
+    handlechangeProject(event){
+        this.projecttype =event.target.value;
+        }
+        //ownermethod
+        owner1(event){
+           this.ownervalue=event.target.value
+        }
+    statusProject(event) {
+        this.selectedStatus = event.target.value;
+    }
+
+    customShowModalPopup() {
+        this.customFormModal = true;
+    }
+
+    customHideModalPopup() {
+        this.customFormModal = false;
+    }
+
+    get acceptedFormats() {
+        return [".pdf", ".png"];
+    }
+
+    handleUploadFinished(event) {
+        // Get the list of uploaded files
+        const uploadedFiles = event.detail.files;
+        alert("No. of files uploaded : " + uploadedFiles.length);
+    }
+
+    handleCancel() {
+        this.customFormModal = false;
+    }
+    handleSave() {
+        this.template.querySelector("lightning-record-edit-form").submit();
+        this.customFormModal = false;
+        const evt = new ShowToastEvent({
+            title: "Project Created",
+            message: "New Project has been added Successfully",
+            variant: "success",
+            mode: "dismissable"
+        });
+        this.dispatchEvent(evt);
+    }
+    saveAndNewClick() {
+        handleSave();
+        handleReset();
+    }
+    handleReset(event) {
+        // Might be possible to use this.fields instead of a selector
+        const inputFields = this.template.querySelectorAll("lightning-input-field");
+        if (inputFields) {
+            inputFields.forEach((field) => {
+                field.reset();
+            });
+        }
+    }
+}
+
+
+
+
+popup.css
+.slds-p-horizontal_x-large{
+    padding-left:1px;
+    
+
+}
+.slds-modal{
+    padding-bottom:40px ;
+    padding-right: 150px;
+}
+.slds-card{
+    padding-top:0px;
+}
+.slds-modal__content{
+    padding-top:0px;
+}
+
+.slds-form-element__control{
+    padding-left:1px
+}
+.slds-input{
+    padding-left: 113px;
+
+}
+
+popup.js-meta.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+      
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+      </targets>
+</LightningComponentBundle>
